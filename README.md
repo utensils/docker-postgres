@@ -19,7 +19,7 @@ docker run -P --name postgresql -e ROLE=foo -e PASSWORD=bar -e SCHEMA=foo jamesb
 This will create a new container with the username and schema of `foo` and a passowrd of `bar`
 
 
-Here is an example of the run. Take note of the user/pass and schema when you start the container as it will not be shown again. Of course you can chnage these settings and add additional users and schemas at any point.
+Here is an example of the run. Take note of the user/pass and schema when you start the container as it will not be shown again. Of course you can change these settings and add additional users and schemas at any point.
 
 
     james@ubuntu:~$ docker run -P --name postgres jamesbrink/postgresql
