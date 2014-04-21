@@ -23,7 +23,7 @@ To run with customized settings
 ```
 docker run -P --name postgresql -e ROLE=foo -e PASSWORD=bar -e SCHEMA=foo jamesbrink/postgresql
 ```
-This will create a new container with the username and schema of `foo` and a passowrd of `bar`
+This will create a new container with the username and schema of `foo` and a password of `bar`
 
 
 Here is an example of the run. Take note of the user/pass and schema when you start the container as it will not be shown again. Of course you can change these settings and add additional users and schemas at any point.
@@ -118,7 +118,7 @@ Create an application friendly URI.
 
     
 ##Environment Variables##
-This is a list of the available enviornment variables wich can be set at runtime using -e KEY=value.
+This is a list of the available environment variables which can be set at runtime using -e KEY=value.
 For example, to change the default password you can issue `docker run -P --name postgresql -e PASSWORD=mysecretpassword jamesbrink/postgresql`
 
 * `ROLE`: A superuser role. default: `postgres`
@@ -127,5 +127,4 @@ For example, to change the default password you can issue `docker run -P --name 
 
 ##Backups##
 Be sure to run regular backups of any production databases. This can be handled in many different ways and I will not go into details here about how you should handle your backups. For additional information on backing up databases refer to the [PostgreSQL 9.3 Documentation on Backups](http://www.postgresql.org/docs/9.3/static/backup.html)
-
 
