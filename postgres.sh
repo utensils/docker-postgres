@@ -5,7 +5,8 @@ create_user () {
 	while [ ! -e /var/run/postgresql/9.3-main.pid ]; do
             inotifywait -q -q -e create /var/run/postgresql/
         done
-        echo "Creating user: $ROLE, with password: $PASSWORD, and schema of: $SCHEMA"
+        echo "Below are your configured options."
+        echo -e "================\nROLE: $ROLE\nPASSWORD: $PASSWORD\nSCHEMA: $SCHEMA\n================"
         if [ $ROLE == "postgres" ]; then
             echo "ALTER USER :user WITH PASSWORD :'password' ;" | psql --set user=$ROLE --set password=$PASSWORD
             if [ $SCHEMA != "postgres" ]; then
