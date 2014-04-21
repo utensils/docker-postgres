@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 create_user () {
-    #TODO replace this sleep with someting better
     if [ -e /var/tmp/firstrun ]; then
-        echo "Seelping for 10 seconds to create user"
-        sleep 10
+	echo "Waiting for PostgreSQL to start"
+	while [ ! -e /var/run/postgresql/9.1-main.pid ]; do
+            inotifywait -q -q -e create /var/run/postgresql/
+        done
         echo "Creating user: $ROLE, with password: $PASSWORD , and schema of: $SCHEMA"
         echo "CREATE USER :user WITH SUPERUSER PASSWORD :'password' ;" | psql --set user=$ROLE --set password=$PASSWORD && createdb $SCHEMA 
         rm /var/tmp/firstrun

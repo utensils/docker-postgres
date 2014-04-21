@@ -1,4 +1,4 @@
-# PostgtreSQL
+# PostgtreSQL 9.1
 #
 # VERSION       1.0
 
@@ -12,6 +12,8 @@ RUN apt-get update
 RUN apt-get install -y postgresql
 RUN apt-get install -y postgis
 RUN apt-get install -y postgresql-client
+RUN apt-get install -y inotify-tools
+
 
 ADD ./postgres.sh /var/lib/postgresql/postgres.sh
 RUN chown postgres:postgres /var/lib/postgresql/postgres.sh
