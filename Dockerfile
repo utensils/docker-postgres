@@ -13,6 +13,10 @@ RUN apt-get install -y postgresql
 RUN apt-get install -y postgis
 RUN apt-get install -y postgresql-client
 
+ADD ./postgres.sh /var/lib/postgresql/postgres.sh
+RUN chown postgres:postgres /var/lib/postgresql/postgres.sh
+RUN chmod +x /var/lib/postgresql/postgres.sh
+
 USER postgres
 
 # Initial default user/pass and schema
@@ -24,7 +28,9 @@ RUN echo "listen_addresses='*'" >> /etc/postgresql/9.1/main/postgresql.conf
 RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.1/main/pg_hba.conf
 
 VOLUME	["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
-ADD ./postgres.sh /var/lib/postgresql/postgres.sh
+
+RUN touch /var/tmp/firstrun
+
 EXPOSE 5432
 CMD ["/var/lib/postgresql/postgres.sh"]
 
