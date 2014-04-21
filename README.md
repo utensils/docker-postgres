@@ -4,6 +4,12 @@ Docker Container for PostgreSQL 9.3
 This is a simple container for running PostgreSQL 9.3.
 It allows for basic initial user/pass and schema configuration via ENV variables.
 
+##Extensions##
+This container is preloaded with the following extensions.
+
+* PostGIS 2.1
+
+
 ##Usage##
 To run with default settings
 
