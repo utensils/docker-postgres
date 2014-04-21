@@ -12,7 +12,7 @@ RUN apt-key adv --fetch-keys http://www.postgresql.org/media/keys/ACCC4CF8.asc
 RUN apt-get update
 
 RUN apt-get install -y postgresql-9.3
-RUN apt-get install -y postgis
+RUN apt-get install -y postgresql-9.3-postgis-2.1
 RUN apt-get install -y postgresql-client-9.3
 RUN apt-get install -y inotify-tools
 

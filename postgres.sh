@@ -5,6 +5,9 @@ create_user () {
 	while [ ! -e /var/run/postgresql/9.3-main.pid ]; do
             inotifywait -q -q -e create /var/run/postgresql/
         done
+
+	# We sleep here for 2 seconds to allow clean output, and speration from postgres startup messages
+	sleep 2
         echo "Below are your configured options."
         echo -e "================\nROLE: $ROLE\nPASSWORD: $PASSWORD\nSCHEMA: $SCHEMA\n================"
         if [ $ROLE == "postgres" ]; then
