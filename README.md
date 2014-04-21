@@ -125,3 +125,7 @@ For example, to change the default password you can issue `docker run -P --name 
 * `PASSWORD`: The password for the role. default: `postgres`
 * `SCHEMA`: Name of schema to create. default: `postgres`
 
+##Backups##
+Be sure to run regular backups of any production databases. This can be handled in many different ways and I will not go into details here about how you should handle your backups. For additional information on backing up databases refer to the documatnation http://www.postgresql.org/docs/9.3/static/backup.html 
+
+
