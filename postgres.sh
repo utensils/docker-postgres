@@ -6,7 +6,14 @@ create_user () {
             inotifywait -q -q -e create /var/run/postgresql/
         done
         echo "Creating user: $ROLE, with password: $PASSWORD, and schema of: $SCHEMA"
-        echo "CREATE USER :user WITH SUPERUSER PASSWORD :'password' ;" | psql --set user=$ROLE --set password=$PASSWORD && createdb $SCHEMA 
+        if [ $ROLE == "postgres" ]; then
+            echo "ALTER USER :user WITH PASSWORD :'password' ;" | psql --set user=$ROLE --set password=$PASSWORD
+            if [ $SCHEMA != "postgres" ]; then
+                createdb $SCHEMA
+            fi
+        else
+            echo "CREATE USER :user WITH SUPERUSER PASSWORD :'password' ;" | psql --set user=$ROLE --set password=$PASSWORD && createdb $SCHEMA 
+        fi
         rm /var/tmp/firstrun
     fi
 }

@@ -24,9 +24,9 @@ RUN chmod +x /var/lib/postgresql/postgres.sh
 USER postgres
 
 # Initial default user/pass and schema
-ENV ROLE docker
-ENV PASSWORD docker
-ENV SCHEMA docker
+ENV ROLE postgres
+ENV PASSWORD postgres
+ENV SCHEMA postgres
 
 RUN echo "listen_addresses='*'" >> /etc/postgresql/9.3/main/postgresql.conf
 RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.3/main/pg_hba.conf
