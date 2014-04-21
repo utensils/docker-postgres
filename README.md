@@ -41,7 +41,7 @@ Here are some examples of linking containers to postgresql
 
 First we create a container, here I am using a random password generated from openssl
 
-    james@ubuntu:~/$ docker run -P --name postgres -e PASSWORD=`openssl rand -hex 10` -e ROLE=james -e SCHEMA=test     jamesbrink/postgresql
+    james@ubuntu:~/$ docker run -P --name postgres -e PASSWORD=`openssl rand -hex 10` -e ROLE=james -e SCHEMA=test jamesbrink/postgresql
     Waiting for PostgreSQL to start
     Below are your configured options.
     ================
