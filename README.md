@@ -21,7 +21,7 @@ docker run -P --name postgresql jamesbrink/postgresql
 To run with customized settings
 
 ```
-docker run -P --name postgresql -e ROLE=foo -e PASSWORD=bar -e SCHEMA=foo jamesbrink/postgresql
+docker run -P --name postgresql -e USER=foo -e PASSWORD=bar -e SCHEMA=foo jamesbrink/postgresql
 ```
 This will create a new container with the username and schema of `foo` and a password of `bar`
 
@@ -36,7 +36,7 @@ Here is an example of the run. Take note of the user/pass and schema when you st
     2014-04-21 20:36:42 UTC LOG:  database system is ready to accept connections
     Below are your configured options.
     ================
-    ROLE: postgres
+    USER: postgres
     PASSWORD: postgres
     SCHEMA: postgres
     ================
@@ -48,18 +48,18 @@ Here are some examples of linking containers to postgresql
 
 First we create a container, here I am using a random password generated from openssl
 
-    james@ubuntu:~/$ docker run -P --name postgres -e PASSWORD=`openssl rand -hex 10` -e ROLE=james -e SCHEMA=test jamesbrink/postgresql
+    james@ubuntu:~/$ docker run -P --name postgres -e PASSWORD=`openssl rand -hex 10` -e USER=james -e SCHEMA=test jamesbrink/postgresql
     Waiting for PostgreSQL to start
     Below are your configured options.
     ================
-    ROLE: james
+    USER: james
     PASSWORD: 5387fc737962925e2c70
     SCHEMA: test
     ================
     2014-04-21 21:07:24 UTC LOG:  database system was shut down at 2014-04-21 04:34:43 UTC
     2014-04-21 21:07:24 UTC LOG:  autovacuum launcher started
     2014-04-21 21:07:24 UTC LOG:  database system is ready to accept connections
-    CREATE ROLE
+    CREATE USER
 
 With the postgres container up and running, lets create a new container and link it with an alias of `db`.
 
@@ -85,7 +85,7 @@ You can now connect to the database in a variety of ways. lets first inspect the
     DB_PORT_5432_TCP_PORT=5432
     SHLVL=1
     HOME=/
-    DB_ENV_ROLE=james
+    DB_ENV_USER=james
     DB_PORT_5432_TCP_PROTO=tcp
     _=/usr/bin/env
 
@@ -102,7 +102,7 @@ Connect manually.
 
 Connect using ENV variables.
 
-    root@47b16d7d1e13:/# PGPASSWORD=$DB_ENV_PASSWORD psql -h $DB_PORT_5432_TCP_ADDR -U $DB_ENV_ROLE $DB_ENV_SCHEMA
+    root@47b16d7d1e13:/# PGPASSWORD=$DB_ENV_PASSWORD psql -h $DB_PORT_5432_TCP_ADDR -U $DB_ENV_USER $DB_ENV_SCHEMA
     psql (9.1.13, server 9.3.4)
     WARNING: psql version 9.1, server version 9.3.
          Some psql features might not work.
@@ -112,7 +112,7 @@ Connect using ENV variables.
     
 Create an application friendly URI.
 
-    root@47b16d7d1e13:/# export DB_URI=postgres://$DB_ENV_ROLE:$DB_ENV_PASSWORD@$DB_PORT_5432_TCP_ADDR:$DB_PORT_5432_TCP_PORT/$DB_ENV_SCHEMA
+    root@47b16d7d1e13:/# export DB_URI=postgres://$DB_ENV_USER:$DB_ENV_PASSWORD@$DB_PORT_5432_TCP_ADDR:$DB_PORT_5432_TCP_PORT/$DB_ENV_SCHEMA
     root@47b16d7d1e13:/# echo $DB_URI
     postgres://james:5387fc737962925e2c70@172.17.0.2:5432/test
 
@@ -138,8 +138,8 @@ Example of connecting the volumes to a container.
 This is a list of the available environment variables which can be set at runtime using -e KEY=value.
 For example, to change the default password you can issue `docker run -P --name postgresql -e PASSWORD=mysecretpassword jamesbrink/postgresql`
 
-* `ROLE`: A superuser role. default: `postgres`
-* `PASSWORD`: The password for the role. default: `postgres`
+* `USER`: A superuser role. default: `postgres`
+* `PASSWORD`: The password for the user. default: `postgres`
 * `SCHEMA`: Name of schema to create. default: `postgres`
 
 ##Backups##

@@ -25,7 +25,7 @@ RUN chmod +x /var/lib/postgresql/postgres.sh
 USER postgres
 
 # Initial default user/pass and schema
-ENV ROLE postgres
+ENV USER postgres
 ENV PASSWORD postgres
 ENV SCHEMA postgres
 

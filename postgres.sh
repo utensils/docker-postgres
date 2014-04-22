@@ -9,14 +9,14 @@ create_user () {
 	# We sleep here for 2 seconds to allow clean output, and speration from postgres startup messages
 	sleep 2
         echo "Below are your configured options."
-        echo -e "================\nROLE: $ROLE\nPASSWORD: $PASSWORD\nSCHEMA: $SCHEMA\n================"
-        if [ $ROLE == "postgres" ]; then
-            echo "ALTER USER :user WITH PASSWORD :'password' ;" | psql --set user=$ROLE --set password=$PASSWORD
+        echo -e "================\nUSER: $USER\nPASSWORD: $PASSWORD\nSCHEMA: $SCHEMA\n================"
+        if [ $USER == "postgres" ]; then
+            echo "ALTER USER :user WITH PASSWORD :'password' ;" | psql --set user=$USER --set password=$PASSWORD
             if [ $SCHEMA != "postgres" ]; then
                 createdb $SCHEMA
             fi
         else
-            echo "CREATE USER :user WITH SUPERUSER PASSWORD :'password' ;" | psql --set user=$ROLE --set password=$PASSWORD && createdb $SCHEMA 
+            echo "CREATE USER :user WITH SUPERUSER PASSWORD :'password' ;" | psql --set user=$USER --set password=$PASSWORD && createdb $SCHEMA 
         fi
         rm /var/tmp/firstrun
     fi
