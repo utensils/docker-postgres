@@ -116,6 +116,23 @@ Create an application friendly URI.
     root@47b16d7d1e13:/# echo $DB_URI
     postgres://james:5387fc737962925e2c70@172.17.0.2:5432/test
 
+##Data Volumes##
+The following directories are setup as volumes and can be accessed from other containers.
+
+* /etc/postgresql
+* /var/lib/postgresql
+* /var/log/postgresql
+ 
+Example of connecting the volumes to a container.
+
+
+    james@ubuntu:~/$ docker run --volumes-from postgres -i -t ubuntu bash
+    root@6c3e9e61530f:/# mount |grep postgresql
+    /dev/disk/by-uuid/cb08824e-c579-4fbc-8fea-668fafa212cc on /etc/postgresql type ext4 (rw,relatime,errors=remount-ro,data=ordered)
+    /dev/disk/by-uuid/cb08824e-c579-4fbc-8fea-668fafa212cc on /var/lib/postgresql type ext4 (rw,relatime,errors=remount-ro,data=ordered)
+    /dev/disk/by-uuid/cb08824e-c579-4fbc-8fea-668fafa212cc on /var/log/postgresql type ext4 (rw,relatime,errors=remount-ro,data=ordered)
+    
+
     
 ##Environment Variables##
 This is a list of the available environment variables which can be set at runtime using -e KEY=value.
