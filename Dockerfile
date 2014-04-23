@@ -18,7 +18,7 @@ RUN apt-get install -y postgresql-client-9.3
 RUN apt-get install -y inotify-tools
 
 
-ADD ./postgres.sh /var/lib/postgresql/postgres.sh
+ADD ./scripts/postgres.sh /var/lib/postgresql/postgres.sh
 RUN chown postgres:postgres /var/lib/postgresql/postgres.sh
 RUN chmod +x /var/lib/postgresql/postgres.sh
 
