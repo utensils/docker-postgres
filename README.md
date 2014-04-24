@@ -48,7 +48,7 @@ Here are some examples of linking containers to postgresql
 
 First we create a container, here I am using a random password generated from openssl
 
-    james@ubuntu:~/$ docker run -P --name postgres -e PASSWORD=`openssl rand -hex 10` -e USER=james -e SCHEMA=test jamesbrink/postgresql
+    james@ubuntu:~$ docker run -P --name postgres -e PASSWORD=`openssl rand -hex 10` -e USER=james -e SCHEMA=test jamesbrink/postgresql
     Waiting for PostgreSQL to start
     Below are your configured options.
     ================
@@ -63,7 +63,7 @@ First we create a container, here I am using a random password generated from op
 
 With the postgres container up and running, lets create a new container and link it with an alias of `db`.
 
-    james@ubuntu:~/$ docker run -i -t --link postgres:db ubuntu /bin/bash
+    james@ubuntu:~$ docker run -i -t --link postgres:db ubuntu /bin/bash
     
 Now from inside the container ensure you have a postgresql client installed.
 
@@ -126,7 +126,7 @@ The following directories are setup as volumes and can be accessed from other co
 Example of connecting the volumes to a container.
 
 
-    james@ubuntu:~/$ docker run --volumes-from postgres -i -t ubuntu bash
+    james@ubuntu:~$ docker run --volumes-from postgres -i -t ubuntu bash
     root@6c3e9e61530f:/# mount |grep postgresql
     /dev/disk/by-uuid/cb08824e-c579-4fbc-8fea-668fafa212cc on /etc/postgresql type ext4 (rw,relatime,errors=remount-ro,data=ordered)
     /dev/disk/by-uuid/cb08824e-c579-4fbc-8fea-668fafa212cc on /var/lib/postgresql type ext4 (rw,relatime,errors=remount-ro,data=ordered)
