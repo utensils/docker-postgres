@@ -2,7 +2,7 @@
 #
 # VERSION       1.0
 
-FROM ubuntu
+FROM ubuntu:12.04
 MAINTAINER James Brink, brink.james@gmail.com
 
 # make sure the package repository is up to date
