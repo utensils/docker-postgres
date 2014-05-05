@@ -1,22 +1,15 @@
-# PostgtreSQL 9.3
+# PostgtreSQL 9.3.4
 #
-# VERSION       1.0
+# VERSION       1.1
 
-FROM ubuntu:12.04
+FROM ubuntu:14.04
 MAINTAINER James Brink, brink.james@gmail.com
-
-# make sure the package repository is up to date
-RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main" > /etc/apt/sources.list.d/pgdg.list
-RUN apt-key adv --fetch-keys http://www.postgresql.org/media/keys/ACCC4CF8.asc 
-RUN apt-get update
 
 RUN apt-get install -y postgresql-9.3
 RUN apt-get install -y postgresql-contrib-9.3
 RUN apt-get install -y postgresql-9.3-postgis-2.1
 RUN apt-get install -y postgresql-client-9.3
 RUN apt-get install -y inotify-tools
-
 
 ADD ./scripts/postgres.sh /var/lib/postgresql/postgres.sh
 RUN chown postgres:postgres /var/lib/postgresql/postgres.sh

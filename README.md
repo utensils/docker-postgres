@@ -1,7 +1,7 @@
-Docker Container for PostgreSQL 9.3
+Docker Container for PostgreSQL 9.3.4
 =================
 
-This is a simple container for running [PostgreSQL 9.3](http://www.postgresql.org/).
+This is a simple container for running [PostgreSQL 9.3.4](http://www.postgresql.org/).
 It allows for basic initial user/pass and schema configuration via ENV variables.
 
 ##Extensions##
