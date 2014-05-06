@@ -5,6 +5,8 @@
 FROM ubuntu:14.04
 MAINTAINER James Brink, brink.james@gmail.com
 
+RUN echo "Invalidate Cache!"
+
 RUN apt-get install -y postgresql-9.3
 RUN apt-get install -y postgresql-contrib-9.3
 RUN apt-get install -y postgresql-9.3-postgis-2.1
