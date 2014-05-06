@@ -15,7 +15,7 @@ ADD ./scripts/postgres.sh /var/lib/postgresql/postgres.sh
 RUN chown postgres:postgres /var/lib/postgresql/postgres.sh
 RUN chmod +x /var/lib/postgresql/postgres.sh
 
-#USER postgres
+USER postgres
 
 # Initial default user/pass and schema
 ENV USER postgres
