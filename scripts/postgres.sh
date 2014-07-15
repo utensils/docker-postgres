@@ -9,7 +9,7 @@ create_user () {
 	# We sleep here for 2 seconds to allow clean output, and speration from postgres startup messages
 	sleep 2
         echo "Below are your configured options."
-        echo -e "================\nUSER: $USER\nPASSWORD: $PASSWORD\nSCHEMA: $SCHEMA\n================"
+        echo -e "================\nUSER: $USER\nPASSWORD: $PASSWORD\nSCHEMA: $SCHEMA\nPOSTGIS: $POSTGIS\n================"
         if [ $USER == "postgres" ]; then
             echo "ALTER USER :user WITH PASSWORD :'password' ;" | psql --set user=$USER --set password=$PASSWORD
             if [ $SCHEMA != "postgres" ]; then
@@ -17,6 +17,10 @@ create_user () {
             fi
         else
             echo "CREATE USER :user WITH SUPERUSER PASSWORD :'password' ;" | psql --set user=$USER --set password=$PASSWORD && createdb $SCHEMA 
+        fi
+
+        if $POSTGIS; then
+            echo "CREATE EXTENSION postgis;CREATE EXTENSION postgis_topology;" | psql -d $SCHEMA
         fi
         rm /var/tmp/firstrun
     fi
