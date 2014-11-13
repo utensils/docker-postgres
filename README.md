@@ -25,6 +25,10 @@ docker run -P --name postgresql -e USER=foo -e PASSWORD=bar -e SCHEMA=foo jamesb
 ```
 This will create a new container with the username and schema of `foo` and a password of `bar`
 
+To add PostGIS support to the database pass the environment variable POSTGIS=true.
+```
+docker run -P --name postgresql -e USER=foo -e PASSWORD=bar -e SCHEMA=foo -e POSTGIS=true jamesbrink/postgresql
+```
 
 Here is an example of the run. Take note of the user/pass and schema when you start the container as it will not be shown again. Of course you can change these settings and add additional users and schemas at any point.
 
@@ -39,6 +43,7 @@ Here is an example of the run. Take note of the user/pass and schema when you st
     USER: postgres
     PASSWORD: postgres
     SCHEMA: postgres
+    POSTGIS: false
     ================
     ALTER ROLE
 
@@ -55,6 +60,7 @@ First we create a container, here I am using a random password generated from op
     USER: james
     PASSWORD: 5387fc737962925e2c70
     SCHEMA: test
+    POSTGIS: false
     ================
     2014-04-21 21:07:24 UTC LOG:  database system was shut down at 2014-04-21 04:34:43 UTC
     2014-04-21 21:07:24 UTC LOG:  autovacuum launcher started
@@ -141,6 +147,7 @@ For example, to change the default password you can issue `docker run -P --name 
 * `USER`: A superuser role. default: `postgres`
 * `PASSWORD`: The password for the user. default: `postgres`
 * `SCHEMA`: Name of schema to create. default: `postgres`
+* `POSTGIS`: Enable PostGIS extensions on the schema.
 
 ##Backups##
 Be sure to run regular backups of any production databases. This can be handled in many different ways and I will not go into details here about how you should handle your backups. For additional information on backing up databases refer to the [PostgreSQL 9.3 Documentation on Backups](http://www.postgresql.org/docs/9.3/static/backup.html)
