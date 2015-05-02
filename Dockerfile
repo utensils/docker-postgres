@@ -5,8 +5,7 @@
 FROM debian:jessie
 MAINTAINER James Brink, brink.james@gmail.com
 
-RUN apt-get update && apt-get install -y postgresql-9.4 postgresql-contrib-9.4 postgresql-9.4-postgis-2.1 postgresql-client-9.4 inotify-tools
-	&& rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y postgresql-9.4 postgresql-contrib-9.4 postgresql-9.4-postgis-2.1 postgresql-client-9.4 inotify-tools && rm -rf /var/lib/apt/lists/*
 
 ADD ./scripts/postgres.sh /var/lib/postgresql/postgres.sh
 RUN chown postgres:postgres /var/lib/postgresql/postgres.sh
@@ -19,6 +18,7 @@ ENV USER postgres
 ENV PASSWORD postgres
 ENV SCHEMA postgres
 ENV POSTGIS false
+ENV ENCODING SQL_ASCII
 
 RUN echo "listen_addresses='*'" >> /etc/postgresql/9.4/main/postgresql.conf
 RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.4/main/pg_hba.conf
