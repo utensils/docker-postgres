@@ -1,7 +1,7 @@
 Docker Container for PostgreSQL 9.4
 =================
 
-This is a simple container for running [PostgreSQL 9.4](http://www.postgresql.org/).
+This is a highly configurable container for [PostgreSQL 9.4](http://www.postgresql.org/).
 It allows for basic initial user/pass and schema configuration via ENV variables.
 
 ##Extensions##
@@ -15,13 +15,13 @@ This container is preloaded with the following extensions.
 To run with default settings
 
 ```
-docker run -P --name postgresql jamesbrink/postgresql
+docker run -P --name postgres jamesbrink/postgres`
 ```
 
 To run with customized settings
 
 ```
-docker run -P --name postgresql -e USER=foo -e PASSWORD=bar -e SCHEMA=foo -e ENCODING=UTF8 jamesbrink/postgresql
+docker run -P --name postgres -e USER=foo -e PASSWORD=bar -e SCHEMA=foo -e ENCODING=UTF8 jamesbrink/postgres
 ```
 This will create a new container with the username and schema of `foo` encoded in UTF-8 and a password of `bar`
 
