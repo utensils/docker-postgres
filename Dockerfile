@@ -1,6 +1,6 @@
 # PostgtreSQL 9.4
 #
-# VERSION      9.4
+# VERSION    1.0.0 
 
 FROM debian:jessie
 MAINTAINER James Brink, brink.james@gmail.com
@@ -29,5 +29,3 @@ RUN touch /var/tmp/firstrun
 
 EXPOSE 5432
 CMD ["/var/lib/postgresql/postgres.sh"]
-
-
