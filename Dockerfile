@@ -14,7 +14,7 @@ RUN apt-get update \
   postgresql-client-9.4 \
   && rm -rf /var/lib/apt/lists/*
 
-ADD ./scripts/postgres.sh /var/lib/postgresql/postgres.sh
+ADD ./assets/bin/postgres.sh /var/lib/postgresql/postgres.sh
 
 RUN chown postgres:postgres /var/lib/postgresql/postgres.sh \
   && chmod +x /var/lib/postgresql/postgres.sh
