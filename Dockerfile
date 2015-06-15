@@ -14,10 +14,10 @@ RUN apt-get update \
   postgresql-client-9.4 \
   && rm -rf /var/lib/apt/lists/*
 
-ADD ./assets/bin/postgres.sh /var/lib/postgresql/postgres.sh
+ADD docker-assets/ /
 
-RUN chown postgres:postgres /var/lib/postgresql/postgres.sh \
-  && chmod +x /var/lib/postgresql/postgres.sh
+RUN chown postgres:postgres /usr/local/bin/postgres.sh \
+  && chmod +x /usr/local/bin/postgres.sh
 
 USER postgres
 
@@ -36,4 +36,4 @@ VOLUME	["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
 RUN touch /var/tmp/firstrun
 
 EXPOSE 5432
-CMD ["/var/lib/postgresql/postgres.sh"]
+CMD ["/usr/local/bin/postgres.sh"]
