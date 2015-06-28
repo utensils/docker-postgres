@@ -16,7 +16,6 @@ RUN apt-get update \
 
 ADD docker-assets/ /
 
-RUN mkdir -p /var/run/postgresql/9.4-main.pg_stat_tmp
 RUN chown postgres:postgres /usr/local/bin/postgres.sh \
   && chmod +x /usr/local/bin/postgres.sh \
   && chown -R postgres:postgres /var/run/postgresql
