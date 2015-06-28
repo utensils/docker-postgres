@@ -1,4 +1,14 @@
 #!/usr/bin/env bash
+
+# Create postgres data directory and run initdb if needed
+# This is useful for docker volumes
+if [ ! -e /var/lib/postgresql/9.4/main ]; then
+    echo "Creating data directory"
+    mkdir -p /var/lib/postgresql/9.4/main
+    echo "Initializing database files"
+    /usr/lib/postgresql/9.4/bin/initdb -D /var/lib/postgresql/9.4/main/
+fi
+
 create_user () {
   if [ -e /var/tmp/firstrun ]; then
     mkdir -p /var/run/postgresql/9.4-main.pg_stat_tmp
@@ -17,9 +27,9 @@ create_user () {
     psql -c "CREATE DATABASE template1 WITH TEMPLATE = template0 ENCODING = '$ENCODING';"
     psql -c "UPDATE pg_database SET datistemplate = TRUE WHERE datname = 'template1';"
     psql -d 'template1' -c "VACUUM FREEZE;"
-    if [ $USER == "postgres" ]; then
+    if [ "$USER" == "postgres" ]; then
       echo "ALTER USER :user WITH PASSWORD :'password' ;" | psql --set user=$USER --set password=$PASSWORD
-      if [ $SCHEMA != "postgres" ]; then
+      if [ "$SCHEMA" != "postgres" ]; then
         createdb -E $ENCODING -T template0 $SCHEMA
       fi
     else
@@ -38,4 +48,4 @@ create_user () {
   fi
 }
 create_user &
-exec /usr/lib/postgresql/9.4/bin/postgres -D /var/lib/postgresql/9.4/main -c config_file=/etc/postgresql/9.4/main/postgresql.conf
+exec /usr/lib/postgresql/9.4/bin/postgres -D /var/lib/postgresql/data -c config_file=/etc/postgresql/9.4/main/postgresql.conf
