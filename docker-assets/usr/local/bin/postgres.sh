@@ -9,6 +9,9 @@ if [ ! -e /var/lib/postgresql/9.4/main ]; then
     /usr/lib/postgresql/9.4/bin/initdb -D /var/lib/postgresql/9.4/main/
 fi
 
+# Create postgres backup directory if needed
+mkdir -p /var/backups
+
 create_user () {
   if [ -e /var/tmp/firstrun ]; then
     mkdir -p /var/run/postgresql/9.4-main.pg_stat_tmp
@@ -43,6 +46,13 @@ create_user () {
     else
       echo "NOT CREATING EXTENSIONS"
     fi
+
+    # Create .pgpass for use with backups
+    echo "localhost:5432:*:$USER:$PASSWORD" > /var/lib/postgresql/.pgpass
+    chmod 0600 /var/lib/postgresql/.pgpass
+
+    # Update pg_backup with proper user
+    sed -i "s/^USERNAME=.*$/USERNAME=$USER/" /usr/local/etc/pg_backup.config
 
     rm /var/tmp/firstrun
   fi
