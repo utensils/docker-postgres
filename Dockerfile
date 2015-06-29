@@ -1,10 +1,10 @@
 # PostgtreSQL 9.4
 #
-# VERSION    1.1.0
+# VERSION    1.2.0
 
 FROM debian:jessie
 MAINTAINER James Brink, brink.james@gmail.com
-LABEL version="1.1.0"
+LABEL version="1.2.0"
 LABEL decription="PostgreSQL Server 9.4"
 
 RUN apt-get update \
