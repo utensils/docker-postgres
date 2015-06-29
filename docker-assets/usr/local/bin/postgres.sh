@@ -54,6 +54,35 @@ create_user () {
     # Update pg_backup with proper user
     sed -i "s/^USERNAME=.*$/USERNAME=$USER/" /usr/local/etc/pg_backup.config
 
+    # Schedule backups
+    if [ "${BACKUP_ENABLED,,}" == "true" ]; then
+      # TODO rotate this log
+      BACKUP_COMMAND="/usr/local/bin/pg_backup.sh -c /usr/local/etc/pg_backup.config >> /var/log/postgresql/pg_backup.log 2>&1"
+      echo "Scheduling PostgreSQL Backups"
+
+      case ${BACKUP_FREQUENCY,,} in
+        hourly)
+          echo "Scheduling Hourly Backups"
+          echo -e "MAILTO=$BACKUP_EMAIL\n0 * * * * $BACKUP_COMMAND" | crontab
+          echo -e "Resulting cron:\n`crontab -l`"
+          ;;
+        daily)
+          echo "Scheduling Daily Backups"
+          echo -e "MAILTO=$BACKUP_EMAIL\n0 0 * * * $BACKUP_COMMAND" | crontab
+          echo -e "Resulting cron:\n`crontab -l`"
+          ;;
+        weekly)
+          echo "Scheduling Weekly Backups"
+          echo -e "MAILTO=$BACKUP_EMAIL\n0 0 * * 0 $BACKUP_COMMAND" | crontab
+          echo -e "Resulting cron:\n`crontab -l`"
+          ;;
+        *)
+          echo "$BACKUP_FREQUENCY is not valid for BACKUP_FREQUENCY, acceptable values are hourly, daily, or weekly"
+          ;;
+      esac
+
+    fi
+
     rm /var/tmp/firstrun
   fi
 }

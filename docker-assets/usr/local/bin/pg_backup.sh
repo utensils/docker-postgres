@@ -23,11 +23,6 @@ while [ $# -gt 0 ]; do
         esac
 done
  
-if [ $# = 0 ]; then
-        SCRIPTPATH=$(cd ${0%/*} && pwd -P)
-        source $SCRIPTPATH/pg_backup.config
-fi;
-
 
 ###########################
 #### PRE-BACKUP CHECKS ####
