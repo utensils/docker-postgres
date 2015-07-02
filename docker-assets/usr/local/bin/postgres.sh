@@ -5,6 +5,7 @@
 if [ ! -e /var/lib/postgresql/9.4/main ]; then
     echo "Creating data directory"
     mkdir -p /var/lib/postgresql/9.4/main
+    touch /var/lib/postgresql/firstrun
     echo "Initializing database files"
     /usr/lib/postgresql/9.4/bin/initdb -D /var/lib/postgresql/9.4/main/
 fi
@@ -13,7 +14,7 @@ fi
 mkdir -p /var/backups
 
 create_user () {
-  if [ -e /var/tmp/firstrun ]; then
+  if [ -e /var/lib/postgresql/firstrun ]; then
     mkdir -p /var/run/postgresql/9.4-main.pg_stat_tmp
     echo "Waiting for PostgreSQL to start"
     while [ ! -e /var/run/postgresql/9.4-main.pid ]; do
@@ -83,7 +84,7 @@ create_user () {
 
     fi
 
-    rm /var/tmp/firstrun
+    rm /var/lib/postgresql/firstrun
   fi
 }
 create_user &

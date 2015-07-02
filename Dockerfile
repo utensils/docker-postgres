@@ -1,6 +1,6 @@
 # PostgtreSQL 9.4
 #
-# VERSION    1.2.0
+# VERSION    1.2.1
 
 FROM debian:jessie
 MAINTAINER James Brink, brink.james@gmail.com
@@ -38,15 +38,18 @@ ENV ENCODING SQL_ASCII
 # Database backup settings
 ENV BACKUP_ENABLED false
 ENV BACKUP_FREQUENCY daily
+
+# TODO implement these
 ENV BACKUP_RETENTION 7
 ENV BACKUP_EMAIL postgres
+ENV ENVIRONMENT development
 
 RUN echo "listen_addresses='*'" >> /etc/postgresql/9.4/main/postgresql.conf \
   && echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.4/main/pg_hba.conf
 
 VOLUME	["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql", "/var/backups"]
 
-RUN touch /var/tmp/firstrun
+RUN touch /var/lib/postgresql/firstrun
 
 EXPOSE 5432
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
