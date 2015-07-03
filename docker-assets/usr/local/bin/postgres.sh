@@ -14,7 +14,7 @@ fi
 mkdir -p /var/backups
 
 create_user () {
-  if [ -e /var/lib/postgresql/firstrun ]; then
+  if [ ! -e /var/lib/postgresql/firstrun ]; then
     mkdir -p /var/run/postgresql/9.4-main.pg_stat_tmp
     echo "Waiting for PostgreSQL to start"
     while [ ! -e /var/run/postgresql/9.4-main.pid ]; do
