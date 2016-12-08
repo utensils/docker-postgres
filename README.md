@@ -15,7 +15,7 @@ This container is preloaded with the following extensions.
 To run with default settings
 
 ```
-docker run -P --name postgres jamesbrink/postgres`
+docker run -P --name postgres jamesbrink/postgres
 ```
 
 To run with customized settings
