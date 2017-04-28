@@ -4,14 +4,16 @@ Docker Container for PostgreSQL 9.4
 This is a highly configurable container for [PostgreSQL 9.4](http://www.postgresql.org/).
 It allows for basic initial user/pass and schema configuration via ENV variables.
 
-##Extensions##
+## Extensions
+
 This container is preloaded with the following extensions.
 
 * [PostgreSQL-Contrib](http://www.postgresql.org/docs/9.4/static/contrib.html)
 * [PostGIS 2.1](http://postgis.net/)
 
 
-##Usage##
+## Usage
+
 To run with default settings
 
 ```
@@ -48,7 +50,8 @@ Here is an example of the run. Take note of the user/pass and schema when you st
     ALTER ROLE
 
 
-##Container Linking##
+## Container Linking
+
 Here are some examples of linking containers to postgresql
 
 First we create a container, here I am using a random password generated from openssl
@@ -123,7 +126,8 @@ Create an application friendly URI.
     root@47b16d7d1e13:/# echo $DB_URI
     postgres://james:5387fc737962925e2c70@172.17.0.2:5432/test
 
-##Data Volumes##
+## Data Volumes
+
 The following directories are setup as volumes and can be accessed from other containers.
 
 * /etc/postgresql
@@ -141,7 +145,8 @@ Example of connecting the volumes to a container.
     
 
     
-##Environment Variables##
+## Environment Variables
+
 This is a list of the available environment variables which can be set at runtime using -e KEY=value.
 For example, to change the default password you can issue `docker run -P --name postgresql -e PASSWORD=mysecretpassword jamesbrink/postgresql`
 
@@ -151,6 +156,7 @@ For example, to change the default password you can issue `docker run -P --name 
 * `ENCODING`: Encoding of the schema we are about to create. default: SQL_ASCII
 * `POSTGIS`: Enable PostGIS extensions on the schema.
 
-##Backups##
+## Backups
+
 Be sure to run regular backups of any production databases. This can be handled in many different ways and I will not go into details here about how you should handle your backups. For additional information on backing up databases refer to the [PostgreSQL 9.4 Documentation on Backups](http://www.postgresql.org/docs/9.4/static/backup.html)
 
