@@ -1,7 +1,7 @@
-Docker Container for PostgreSQL
+Docker Container for PostgreSQL 9.6
 =================
 
-This is a highly configurable container for [PostgreSQL](http://www.postgresql.org/).
+This is a highly configurable container for [PostgreSQL 9.6](http://www.postgresql.org/).
 It allows for basic initial user/pass and schema configuration via ENV variables.
 
 ## Extensions
