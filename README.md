@@ -1,15 +1,15 @@
-Docker Container for PostgreSQL 9.4
+Docker Container for PostgreSQL
 =================
 
-This is a highly configurable container for [PostgreSQL 9.4](http://www.postgresql.org/).
+This is a highly configurable container for [PostgreSQL](http://www.postgresql.org/).
 It allows for basic initial user/pass and schema configuration via ENV variables.
 
 ## Extensions
 
 This container is preloaded with the following extensions.
 
-* [PostgreSQL-Contrib](http://www.postgresql.org/docs/9.4/static/contrib.html)
-* [PostGIS 2.1](http://postgis.net/)
+* [PostgreSQL-Contrib](http://www.postgresql.org/docs/9.6/static/contrib.html)
+* [PostGIS 2.3](http://postgis.net/)
 
 
 ## Usage
@@ -158,5 +158,5 @@ For example, to change the default password you can issue `docker run -P --name 
 
 ## Backups
 
-Be sure to run regular backups of any production databases. This can be handled in many different ways and I will not go into details here about how you should handle your backups. For additional information on backing up databases refer to the [PostgreSQL 9.4 Documentation on Backups](http://www.postgresql.org/docs/9.4/static/backup.html)
+Be sure to run regular backups of any production databases. This can be handled in many different ways and I will not go into details here about how you should handle your backups. For additional information on backing up databases refer to the [PostgreSQL 9.6 Documentation on Backups](http://www.postgresql.org/docs/9.6/static/backup.html)
 
