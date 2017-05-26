@@ -7,6 +7,9 @@ MAINTAINER James Brink, brink.james@gmail.com
 LABEL version="9.5"
 LABEL decription="PostgreSQL Server"
 
+ARG postgres_version=9.5
+ARG postgis_version=2.2
+
 # Install all needed packages, this includes adding packages from postgresql's
 # package database. Thisi repo provides postgis as well.
 RUN groupadd postgres \
@@ -21,16 +24,18 @@ RUN groupadd postgres \
       && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
       && apt-get update \
       && apt-get install -y \
-      postgresql-9.5 \
-      postgresql-contrib-9.5 \
-      postgresql-9.5-postgis-2.2 \
-      postgresql-client-9.5 \
+      postgresql-${postgres_version} \
+      postgresql-contrib-${postgres_version} \
+      postgresql-${postgres_version}-postgis-${postgis_version} \
+      postgresql-client-${postgres_version} \
       && rm -rf /var/lib/apt/lists/* \
       && mkdir -p /var/run/supervisor \
       && chown -R postgres:postgres /var/run/supervisor \
       && chown -R postgres:postgres /var/run/postgresql /var/backups /usr/local/etc \
-      && echo "listen_addresses='*'" >> /etc/postgresql/9.5/main/postgresql.conf \
-      && echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.5/main/pg_hba.conf \
+      && echo "listen_addresses='*'" >> /etc/postgresql/${postgres_version}/main/postgresql.conf \
+      && echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/${postgres_version}/main/pg_hba.conf \
+      && sed -i "s|data_directory =.*$|data_directory = '/var/lib/postgresql/data'|g" /etc/postgresql/${postgres_version}/main/postgresql.conf \
+      && rm -rf /var/lib/postgresql/* \
       && touch /var/lib/postgresql/firstrun && chmod 666 /var/lib/postgresql/firstrun
 
 # Add our custom assets to the container.

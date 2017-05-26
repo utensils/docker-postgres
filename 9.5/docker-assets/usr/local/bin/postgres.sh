@@ -1,30 +1,38 @@
 #!/usr/bin/env bash
+# need to make the dir for /var/run/sql-version.tmp/
+POSTGRES_VERSION=9.5
 
 # Create postgres data directory and run initdb if needed
 # This is useful for docker volumes
-if [ ! -e /var/lib/postgresql/9.4/main ]; then
+if [ ! -e /var/lib/postgresql/data ]; then
     echo "Creating data directory"
-    mkdir -p /var/lib/postgresql/9.4/main
+    mkdir -p /var/lib/postgresql/data
     touch /var/lib/postgresql/firstrun
     echo "Initializing database files"
-    /usr/lib/postgresql/9.4/bin/initdb -D /var/lib/postgresql/9.4/main/
+    /usr/lib/postgresql/$POSTGRES_VERSION/bin/initdb -D /var/lib/postgresql/data/
 fi
 
 # Create postgres backup directory if needed
 mkdir -p /var/backups
 
 create_user () {
-  if [ ! -e /var/lib/postgresql/firstrun ]; then
-    mkdir -p /var/run/postgresql/9.4-main.pg_stat_tmp
+  if [ -f /var/lib/postgresql/firstrun ]; then
+    mkdir -p /var/run/postgresql/$POSTGRES_VERSION-main.pg_stat_tmp
     echo "Waiting for PostgreSQL to start"
-    while [ ! -e /var/run/postgresql/9.4-main.pid ]; do
+    while [ ! -e /var/run/postgresql/$POSTGRES_VERSION-main.pid ]; do
       inotifywait -q -q -e create /var/run/postgresql/
     done
 
     # We sleep here for 2 seconds to allow clean output, and speration from postgres startup messages
     sleep 2
     echo "Below are your configured options."
-    echo -e "================\nUSER: $USER\nPASSWORD: $PASSWORD\nSCHEMA: $SCHEMA\nENCODING: $ENCODING\nPOSTGIS: $POSTGIS\n================"
+    echo -e "================
+USER: $USER
+PASSWORD: $PASSWORD
+SCHEMA: $SCHEMA
+ENCODING: $ENCODING
+POSTGIS: $POSTGIS
+================"
     # Ensure template1 gets updated with proper encoding
     psql -c "UPDATE pg_database SET datistemplate = FALSE WHERE datname = 'template1';"
     psql -c "DROP DATABASE template1;"
@@ -64,18 +72,24 @@ create_user () {
       case ${BACKUP_FREQUENCY,,} in
         hourly)
           echo "Scheduling Hourly Backups"
-          echo -e "MAILTO=$BACKUP_EMAIL\n0 * * * * $BACKUP_COMMAND" | crontab
-          echo -e "Resulting cron:\n`crontab -l`"
+          echo -e "MAILTO=$BACKUP_EMAIL
+0 * * * * $BACKUP_COMMAND" | crontab
+          echo -e "Resulting cron:
+`crontab -l`"
           ;;
         daily)
           echo "Scheduling Daily Backups"
-          echo -e "MAILTO=$BACKUP_EMAIL\n0 0 * * * $BACKUP_COMMAND" | crontab
-          echo -e "Resulting cron:\n`crontab -l`"
+          echo -e "MAILTO=$BACKUP_EMAIL
+0 0 * * * $BACKUP_COMMAND" | crontab
+          echo -e "Resulting cron:
+`crontab -l`"
           ;;
         weekly)
           echo "Scheduling Weekly Backups"
-          echo -e "MAILTO=$BACKUP_EMAIL\n0 0 * * 0 $BACKUP_COMMAND" | crontab
-          echo -e "Resulting cron:\n`crontab -l`"
+          echo -e "MAILTO=$BACKUP_EMAIL
+0 0 * * 0 $BACKUP_COMMAND" | crontab
+          echo -e "Resulting cron:
+`crontab -l`"
           ;;
         *)
           echo "$BACKUP_FREQUENCY is not valid for BACKUP_FREQUENCY, acceptable values are hourly, daily, or weekly"
@@ -88,4 +102,4 @@ create_user () {
   fi
 }
 create_user &
-exec /usr/lib/postgresql/9.4/bin/postgres -D /var/lib/postgresql/data -c config_file=/etc/postgresql/9.4/main/postgresql.conf
+exec /usr/lib/postgresql/$POSTGRES_VERSION/bin/postgres -D /var/lib/postgresql/data -c config_file=/etc/postgresql/$POSTGRES_VERSION/main/postgresql.conf

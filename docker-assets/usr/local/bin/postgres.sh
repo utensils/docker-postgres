@@ -1,23 +1,25 @@
 #!/usr/bin/env bash
+# need to make the dir for /var/run/sql-version.tmp/
+POSTGRES_VERSION=%s
 
 # Create postgres data directory and run initdb if needed
 # This is useful for docker volumes
-if [ ! -e /var/lib/postgresql/9.4/main ]; then
+if [ ! -e /var/lib/postgresql/data ]; then
     echo "Creating data directory"
-    mkdir -p /var/lib/postgresql/9.4/main
+    mkdir -p /var/lib/postgresql/data
     touch /var/lib/postgresql/firstrun
     echo "Initializing database files"
-    /usr/lib/postgresql/9.4/bin/initdb -D /var/lib/postgresql/9.4/main/
+    /usr/lib/postgresql/$POSTGRES_VERSION/bin/initdb -D /var/lib/postgresql/data/
 fi
 
 # Create postgres backup directory if needed
 mkdir -p /var/backups
 
 create_user () {
-  if [ ! -e /var/lib/postgresql/firstrun ]; then
-    mkdir -p /var/run/postgresql/9.4-main.pg_stat_tmp
+  if [ -f /var/lib/postgresql/firstrun ]; then
+    mkdir -p /var/run/postgresql/$POSTGRES_VERSION-main.pg_stat_tmp
     echo "Waiting for PostgreSQL to start"
-    while [ ! -e /var/run/postgresql/9.4-main.pid ]; do
+    while [ ! -e /var/run/postgresql/$POSTGRES_VERSION-main.pid ]; do
       inotifywait -q -q -e create /var/run/postgresql/
     done
 
@@ -88,4 +90,4 @@ create_user () {
   fi
 }
 create_user &
-exec /usr/lib/postgresql/9.4/bin/postgres -D /var/lib/postgresql/data -c config_file=/etc/postgresql/9.4/main/postgresql.conf
+exec /usr/lib/postgresql/$POSTGRES_VERSION/bin/postgres -D /var/lib/postgresql/data -c config_file=/etc/postgresql/$POSTGRES_VERSION/main/postgresql.conf
