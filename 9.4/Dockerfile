@@ -34,6 +34,7 @@ RUN groupadd postgres \
       && chown -R postgres:postgres /var/run/postgresql /var/backups /usr/local/etc \
       && echo "listen_addresses='*'" >> /etc/postgresql/${postgres_version}/main/postgresql.conf \
       && echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/${postgres_version}/main/pg_hba.conf \
+      && sed -i -r 's/(local\s+all\s+all\s+)peer/md5/' /etc/postgresql/${postgres_version}/main/pg_hba.conf \
       && sed -i "s|data_directory =.*$|data_directory = '/var/lib/postgresql/data'|g" /etc/postgresql/${postgres_version}/main/postgresql.conf \
       && rm -rf /var/lib/postgresql/* \
       && touch /var/lib/postgresql/firstrun && chmod 666 /var/lib/postgresql/firstrun
@@ -60,7 +61,6 @@ ENV PASSWORD=postgres
 ENV SCHEMA=postgres
 ENV POSTGIS=false
 ENV ENCODING=SQL_ASCII
-ENV PGPASSWORD=$PASSWORD
 
 # Database backup settings
 ENV BACKUP_ENABLED=false
