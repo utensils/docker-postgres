@@ -60,7 +60,6 @@ ENV PASSWORD=postgres
 ENV SCHEMA=postgres
 ENV POSTGIS=false
 ENV ENCODING=SQL_ASCII
-ENV PGPASSWORD=$PASSWORD
 
 # Database backup settings
 ENV BACKUP_ENABLED=false
