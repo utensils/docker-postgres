@@ -23,13 +23,13 @@ docker run -P --name postgres jamesbrink/postgres
 To run with customized settings
 
 ```
-docker run -P --name postgres -e USER=foo -e PASSWORD=bar -e SCHEMA=foo -e ENCODING=UTF8 jamesbrink/postgres
+docker run -P --name postgres -e USER=foo -e PASSWORD=bar -e DATABASE=foo -e ENCODING=UTF8 jamesbrink/postgres
 ```
 This will create a new container with the username and schema of `foo` encoded in UTF-8 and a password of `bar`
 
 To add PostGIS support to the database pass the environment variable POSTGIS=true.
 ```
-docker run -P --name postgresql -e USER=foo -e PASSWORD=bar -e SCHEMA=foo -e ENCODING=UTF8 -e POSTGIS=true jamesbrink/postgresql
+docker run -P --name postgresql -e USER=foo -e PASSWORD=bar -e DATABASE=foo -e ENCODING=UTF8 -e POSTGIS=true jamesbrink/postgresql
 ```
 
 Here is an example of the run. Take note of the user/pass and schema when you start the container as it will not be shown again. Of course you can change these settings and add additional users and schemas at any point.
@@ -44,7 +44,7 @@ Here is an example of the run. Take note of the user/pass and schema when you st
     ================
     USER: postgres
     PASSWORD: postgres
-    SCHEMA: postgres
+    DATABASE: public
     POSTGIS: false
     ================
     ALTER ROLE
@@ -56,13 +56,13 @@ Here are some examples of linking containers to postgresql
 
 First we create a container, here I am using a random password generated from openssl
 
-    james@ubuntu:~$ docker run -P --name postgres -e PASSWORD=`openssl rand -hex 10` -e USER=james -e SCHEMA=test jamesbrink/postgresql
+    james@ubuntu:~$ docker run -P --name postgres -e PASSWORD=`openssl rand -hex 10` -e USER=james -e DATABASE=test jamesbrink/postgresql
     Waiting for PostgreSQL to start
     Below are your configured options.
     ================
     USER: james
     PASSWORD: 5387fc737962925e2c70
-    SCHEMA: test
+    DATABASE: test
     POSTGIS: false
     ENCODING: SQL_ASCII
     ================
@@ -86,7 +86,7 @@ You can now connect to the database in a variety of ways. lets first inspect the
     DB_NAME=/cocky_babbage/db
     TERM=xterm
     DB_PORT_5432_TCP_ADDR=172.17.0.2
-    DB_ENV_SCHEMA=test
+    DB_ENV_DATABASE=test
     DB_PORT=tcp://172.17.0.2:5432
     DB_PORT_5432_TCP=tcp://172.17.0.2:5432
     PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -112,7 +112,7 @@ Connect manually.
 
 Connect using ENV variables.
 
-    root@47b16d7d1e13:/# PGPASSWORD=$DB_ENV_PASSWORD psql -h $DB_PORT_5432_TCP_ADDR -U $DB_ENV_USER $DB_ENV_SCHEMA
+    root@47b16d7d1e13:/# PGPASSWORD=$DB_ENV_PASSWORD psql -h $DB_PORT_5432_TCP_ADDR -U $DB_ENV_USER $DB_ENV_DATABASE
     psql (9.1.13, server 9.3.4)
     WARNING: psql version 9.1, server version 9.3.
          Some psql features might not work.
@@ -122,7 +122,7 @@ Connect using ENV variables.
     
 Create an application friendly URI.
 
-    root@47b16d7d1e13:/# export DB_URI=postgres://$DB_ENV_USER:$DB_ENV_PASSWORD@$DB_PORT_5432_TCP_ADDR:$DB_PORT_5432_TCP_PORT/$DB_ENV_SCHEMA
+    root@47b16d7d1e13:/# export DB_URI=postgres://$DB_ENV_USER:$DB_ENV_PASSWORD@$DB_PORT_5432_TCP_ADDR:$DB_PORT_5432_TCP_PORT/$DB_ENV_DATABASE
     root@47b16d7d1e13:/# echo $DB_URI
     postgres://james:5387fc737962925e2c70@172.17.0.2:5432/test
 
@@ -152,8 +152,10 @@ For example, to change the default password you can issue `docker run -P --name 
 
 * `USER`: A superuser role. default: `postgres`
 * `PASSWORD`: The password for the user. default: `postgres`
-* `SCHEMA`: Name of schema to create. default: `postgres`
-* `ENCODING`: Encoding of the schema we are about to create. default: SQL_ASCII
+* `DATABASE`: Name of the database to create. default: `postgres`
+* `SCHEMA`: Name of the schema to create. default: `public`
+* `ENCODING`: Encoding of the schema we are about to create. default: `SQL_ASCII`
+* `LOCALE`: locale setting. default: `en_US.UTF-8`
 * `POSTGIS`: Enable PostGIS extensions on the schema.
 
 ## Backups

@@ -29,6 +29,7 @@ create_user () {
     echo -e "================
 USER: $USER
 PASSWORD: $PASSWORD
+DATABASE: $DATABASE
 SCHEMA: $SCHEMA
 ENCODING: $ENCODING
 POSTGIS: $POSTGIS
@@ -41,17 +42,19 @@ POSTGIS: $POSTGIS
     psql -d 'template1' -c "VACUUM FREEZE;"
     if [ "$USER" == "postgres" ]; then
       echo "ALTER USER :user WITH PASSWORD :'password' ;" | psql --set user=$USER --set password=$PASSWORD
-      if [ "$SCHEMA" != "postgres" ]; then
-        createdb -E $ENCODING -T template0 $SCHEMA
+      if [ "$DATABASE" != "postgres" ]; then
+        createdb -E $ENCODING -T template0 $DATABASE
       fi
     else
-      echo "CREATE USER :user WITH SUPERUSER PASSWORD :'password' ;" | psql --set user=$USER --set password=$PASSWORD && createdb -E $ENCODING -T template0 $SCHEMA
+      echo "CREATE USER :user WITH SUPERUSER PASSWORD :'password' ;" | psql --set user=$USER --set password=$PASSWORD && createdb -E $ENCODING -T template0 $DATABASE
     fi
-
+  
+    echo "CREATING SCHEMA $SCHEMA"
+    echo "CREATE SCHEMA $SCHEMA;" | psql --set user=$USER --set password=$PASSWORD $DATABASE
 
     if echo $POSTGIS |grep -i -q true; then
       echo "CREATING EXTENSIONS"
-      echo "CREATE EXTENSION postgis;CREATE EXTENSION postgis_topology;" | psql -d $SCHEMA
+      echo "CREATE EXTENSION postgis;CREATE EXTENSION postgis_topology;" | psql -d $DATABASE
     else
       echo "NOT CREATING EXTENSIONS"
     fi
