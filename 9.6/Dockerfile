@@ -7,8 +7,8 @@ MAINTAINER James Brink, brink.james@gmail.com
 LABEL version="9.6"
 LABEL decription="PostgreSQL Server"
 
-ARG postgres_version=9.6
-ARG postgis_version=2.3
+ENV postgres_version=9.6
+ENV postgis_version=2.3
 
 # Install all needed packages, this includes adding packages from postgresql's
 # package database. Thisi repo provides postgis as well.

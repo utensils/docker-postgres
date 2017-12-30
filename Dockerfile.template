@@ -7,8 +7,8 @@ MAINTAINER James Brink, brink.james@gmail.com
 LABEL version="%s"
 LABEL decription="PostgreSQL Server"
 
-ARG postgres_version=%s
-ARG postgis_version=%s
+ENV postgres_version=%s
+ENV postgis_version=%s
 
 # Install all needed packages, this includes adding packages from postgresql's
 # package database. Thisi repo provides postgis as well.
