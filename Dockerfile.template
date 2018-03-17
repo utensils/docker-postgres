@@ -7,8 +7,8 @@ MAINTAINER James Brink, brink.james@gmail.com
 LABEL version="%s"
 LABEL decription="PostgreSQL Server"
 
-ENV postgres_version=%s
-ENV postgis_version=%s
+ENV postgres_version=%s \
+    postgis_version=%s
 
 # Install all needed packages, this includes adding packages from postgresql's
 # package database. Thisi repo provides postgis as well.
@@ -39,7 +39,7 @@ RUN groupadd postgres \
       && touch /var/lib/postgresql/firstrun && chmod 666 /var/lib/postgresql/firstrun
 
 # Add our custom assets to the container.
-ADD docker-assets/ /
+COPY docker-assets/ /
 
 # Set proper permissions on custom assets.
 RUN chown postgres:postgres /usr/local/bin/postgres.sh /usr/local/etc/pg_backup.config \
@@ -48,28 +48,24 @@ RUN chown postgres:postgres /usr/local/bin/postgres.sh /usr/local/etc/pg_backup.
       && chmod +x /usr/local/bin/log_watch.sh
 
 # Store postgres versions
-ENV POSTGRES_VERSION=$postgres_version
-ENV POSTGIS_VERSION=$postgis_version
-
-# Locale setting
-ENV LOCALE=en_US.UTF-8
-
-# Initial default postgres settings
-ENV USER=postgres
-ENV PASSWORD=postgres
-ENV DATABASE=postgres
-ENV SCHEMA=public
-ENV POSTGIS=false
-ENV ENCODING=SQL_ASCII
-
-# Database backup settings
-ENV BACKUP_ENABLED=false
-ENV BACKUP_FREQUENCY=daily
-
-# TODO implement these
-ENV BACKUP_RETENTION=7
-ENV BACKUP_EMAIL=postgres
-ENV ENVIRONMENT=development
+ENV POSTGRES_VERSION=$postgres_version \
+    POSTGIS_VERSION=$postgis_version \
+    # Locale setting
+    LOCALE=en_US.UTF-8 \
+    # Initial default postgres settings
+    USER=postgres \
+    PASSWORD=postgres \
+    DATABASE=postgres \
+    SCHEMA=public \
+    POSTGIS=false \
+    ENCODING=SQL_ASCII \
+    # Database backup settings
+    BACKUP_ENABLED=false \
+    BACKUP_FREQUENCY=daily \
+    # TODO implement these
+    BACKUP_RETENTION=7 \
+    BACKUP_EMAIL=postgres \
+    ENVIRONMENT=development
 
 VOLUME	["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql", "/var/backups"]
 
