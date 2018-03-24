@@ -1,3 +1,5 @@
+[Travis CI:  
+![Build Status](https://travis-ci.org/jamesbrink/docker-postgres.svg?branch=master)](https://travis-ci.org/jamesbrink/docker-postgres)
 Docker Container for PostgreSQL 9.6
 =================
 
@@ -74,11 +76,11 @@ First we create a container, here I am using a random password generated from op
 With the postgres container up and running, lets create a new container and link it with an alias of `db`.
 
     james@ubuntu:~$ docker run -i -t --link postgres:db ubuntu /bin/bash
-    
+
 Now from inside the container ensure you have a postgresql client installed.
 
     root@47b16d7d1e13:/# apt-get install postgresql-client
-    
+
 You can now connect to the database in a variety of ways. lets first inspect the environment. The variables of interest here are all prefixed with `DB_`
 
     root@47b16d7d1e13:/# env
@@ -102,13 +104,13 @@ You can now connect to the database in a variety of ways. lets first inspect the
 Connect manually.
 
     root@47b16d7d1e13:/# psql -h 172.17.0.2 -U james test
-    Password for user james: 
+    Password for user james:
     psql (9.1.13, server 9.3.4)
     WARNING: psql version 9.1, server version 9.3.
          Some psql features might not work.
     SSL connection (cipher: DHE-RSA-AES256-SHA, bits: 256)
     Type "help" for help.
-    test=# 
+    test=#
 
 Connect using ENV variables.
 
@@ -118,8 +120,8 @@ Connect using ENV variables.
          Some psql features might not work.
     SSL connection (cipher: DHE-RSA-AES256-SHA, bits: 256)
     Type "help" for help.
-    test=# 
-    
+    test=#
+
 Create an application friendly URI.
 
     root@47b16d7d1e13:/# export DB_URI=postgres://$DB_ENV_USER:$DB_ENV_PASSWORD@$DB_PORT_5432_TCP_ADDR:$DB_PORT_5432_TCP_PORT/$DB_ENV_DATABASE
@@ -133,7 +135,7 @@ The following directories are setup as volumes and can be accessed from other co
 * /etc/postgresql
 * /var/lib/postgresql
 * /var/log/postgresql
- 
+
 Example of connecting the volumes to a container.
 
 
@@ -142,9 +144,9 @@ Example of connecting the volumes to a container.
     /dev/disk/by-uuid/cb08824e-c579-4fbc-8fea-668fafa212cc on /etc/postgresql type ext4 (rw,relatime,errors=remount-ro,data=ordered)
     /dev/disk/by-uuid/cb08824e-c579-4fbc-8fea-668fafa212cc on /var/lib/postgresql type ext4 (rw,relatime,errors=remount-ro,data=ordered)
     /dev/disk/by-uuid/cb08824e-c579-4fbc-8fea-668fafa212cc on /var/log/postgresql type ext4 (rw,relatime,errors=remount-ro,data=ordered)
-    
 
-    
+
+
 ## Environment Variables
 
 This is a list of the available environment variables which can be set at runtime using -e KEY=value.
@@ -161,4 +163,3 @@ For example, to change the default password you can issue `docker run -P --name 
 ## Backups
 
 Be sure to run regular backups of any production databases. This can be handled in many different ways and I will not go into details here about how you should handle your backups. For additional information on backing up databases refer to the [PostgreSQL 9.6 Documentation on Backups](http://www.postgresql.org/docs/9.6/static/backup.html)
-

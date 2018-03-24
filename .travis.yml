@@ -1,0 +1,6 @@
+language: bash
+services: docker
+
+script:
+  - bash -c "make all"
+  - docker images
