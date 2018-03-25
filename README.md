@@ -19,7 +19,7 @@ It allows for basic initial user/pass and schema configuration via ENV variables
 This container is preloaded with the following extensions.
 
 * [PostgreSQL-Contrib](http://www.postgresql.org/docs/9.6/static/contrib.html)
-* [PostGIS 2.3](http://postgis.net/)
+* [PostGIS](http://postgis.net/)
 
 
 ## Usage
