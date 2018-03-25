@@ -10,6 +10,7 @@ ARG BUILD_DATE
 LABEL maintainer="James Brink, brink.james@gmail.com" \
       decription="PostgreSQL Server" \
       version="9.4" \
+      org.label-schema.name="postgres" \
       org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.vcs-url="https://github.com/jamesbrink/docker-postgres" \

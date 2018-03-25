@@ -8,7 +8,7 @@
 [![](https://images.microbadger.com/badges/image/jamesbrink/postgres.svg)](https://microbadger.com/images/jamesbrink/postgres "Get your own image badge on microbadger.com")
 [![](https://images.microbadger.com/badges/version/jamesbrink/postgres.svg)](https://microbadger.com/images/jamesbrink/postgres "Get your own version badge on microbadger.com")
 
-Docker Container for PostgreSQL 9.6
+Docker Container for PostgreSQL (latest version - 10.3)
 =================
 
 This is a highly configurable container for [PostgreSQL 9.6](http://www.postgresql.org/).
