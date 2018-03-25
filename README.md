@@ -1,5 +1,13 @@
 [Travis CI:  
 ![Build Status](https://travis-ci.org/jamesbrink/docker-postgres.svg?branch=master)](https://travis-ci.org/jamesbrink/docker-postgres)
+
+[![Docker Automated build](https://img.shields.io/docker/automated/jamesbrink/postgres.svg)](https://hub.docker.com/r/jamesbrink/postgres/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/jamesbrink/postgres.svg)](https://hub.docker.com/r/jamesbrink/postgres/)
+[![Docker Stars](https://img.shields.io/docker/stars/jamesbrink/postgres.svg)](https://hub.docker.com/r/jamesbrink/postgres/)
+
+[![](https://images.microbadger.com/badges/image/jamesbrink/postgres.svg)](https://microbadger.com/images/jamesbrink/postgres "Get your own image badge on microbadger.com")
+[![](https://images.microbadger.com/badges/version/jamesbrink/postgres.svg)](https://microbadger.com/images/jamesbrink/postgres "Get your own version badge on microbadger.com")
+
 Docker Container for PostgreSQL 9.6
 =================
 
