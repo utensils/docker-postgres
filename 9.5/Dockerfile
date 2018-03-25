@@ -3,9 +3,17 @@
 # VERSION    9.5
 
 FROM debian:jessie
-MAINTAINER James Brink, brink.james@gmail.com
-LABEL version="9.5"
-LABEL decription="PostgreSQL Server"
+
+ARG VCS_REF
+ARG BUILD_DATE
+
+LABEL maintainer="James Brink, brink.james@gmail.com" \
+      decription="PostgreSQL Server" \
+      version="9.5" \
+      org.label-schema.build-date=$BUILD_DATE \
+      org.label-schema.vcs-ref=$VCS_REF \
+      org.label-schema.vcs-url="https://github.com/jamesbrink/docker-postgres" \
+      org.label-schema.schema-version="1.0.0-rc1"
 
 ENV postgres_version=9.5 \
     postgis_version=2.2
